@@ -39,4 +39,8 @@ x_train, x_validation, y_train, y_validation = train_test_split(x, y, test_size=
 with open('finalized_model.sav', 'rb') as file:
     loaded_model = pickle.load(file)
     result = loaded_model.score(x_validation, y_validation)
+#show the perfoance of the model
 print(result)
+#make a prediction
+xnew = [[3, 5, 6.8, 4]]
+print(loaded_model.predict(xnew))
