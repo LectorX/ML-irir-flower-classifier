@@ -18,11 +18,14 @@ URL = 'https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv'
 NAMES = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
 data_set = read_csv(URL, names=NAMES)
 
+#vizualize data, 1 graphic by column
 data_set.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
 pyplot.show()
 
+#vizualize a 'historigrama' of data
 data_set.hist()
 pyplot.show()
 
+#vizualize every 2-cross graphic of data
 scatter_matrix(data_set)
 pyplot.show()

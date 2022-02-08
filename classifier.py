@@ -1,3 +1,5 @@
+from array import array
+from statistics import mode
 from pandas import read_csv
 from pandas.plotting import scatter_matrix
 from matplotlib import pyplot
@@ -13,23 +15,28 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
+import pickle
 
 URL = 'https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv'
 NAMES = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
 data_set = read_csv(URL, names=NAMES)
 
-#show the data structure (table columns, 150 rows)
-print(data_set.shape)
-input('PRESS ANY KEY TO CONTINUE')
+#set data ti array for processing
+array = data_set.values
+x = array[:, 0:4]
+y = array[:, 4]
 
-#show the first 20 rows of data set
-print(data_set.head(20))
-input('PRESS ANY KEY TO CONTINUE')
+#saving the final model
+model = SVC(gamma='auto')
+model.fit(x, y)
 
-#show stadictics of the data
-print(data_set.describe())
-input('PRESS ANY KEY TO CONTINUE')
+with open('finalized_model.sav', 'wb') as file:
+    pickle.dump(model, file)
 
-#show the count of data for each 'class'
-#being 'class' one of the data columns
-print(data_set.groupby('class').size())
+
+#how to use
+x_train, x_validation, y_train, y_validation = train_test_split(x, y, test_size=0.2, random_state=1)
+with open('finalized_model.sav', 'rb') as file:
+    loaded_model = pickle.load(file)
+    result = loaded_model.score(x_validation, y_validation)
+print(result)
